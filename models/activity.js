@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Activity.belongsTo(models.User);
-      Activity.belongsToMany('Skill', { through: 'ActivitySkills'});
-      Activity.belongsToMany('User', { through: 'ActivityParticipants' });
+      Activity.belongsToMany(models.Skill, { through: 'ActivitySkills'});
+      Activity.belongsToMany(models.User, { through: 'ActivityParticipants' });
     }
     //User : Activity =  1 : N
     //Activity.userid = ...

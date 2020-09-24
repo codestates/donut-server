@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Skill.belongsToMany('User', { through: 'UserSkills'});
-      Skill.belongsToMany('Activity', { through: 'ActivitySkills'});
+      Skill.belongsToMany(models.User, { through: 'UserSkills'});
+      Skill.belongsToMany(models.Activity, { through: 'ActivitySkills'});
 
     }
   };
-  Skills.init({
+  Skill.init({
     name: {
       type: DataTypes.STRING,
       allowNull:false,

@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignkey: 'ownerid'
       });
 
-      User.belongsToMany('Skill', { through: 'UserSkills'});
-      User.belongsToMany('Activity', { through: 'ActivityParticipants' });
+      User.belongsToMany(models.Skill, { through: 'UserSkills'});
+      User.belongsToMany(models.Activity, { through: 'ActivityParticipants' });
 
     }
   };
