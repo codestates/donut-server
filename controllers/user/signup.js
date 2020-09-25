@@ -1,14 +1,14 @@
-const { User } = require('../../models');
+const { User } = require(__base + 'models');
  
 module.exports = async (req, res) => {
 
-    const { email, password, passwordConform, username, address, latlon } = req.body;
+    const { email, password, passwordConfirm, username, address, latlon } = req.body;
 
-    if(password !== passwordConform){
+    if(password !== passwordConfirm){
         return res.status(403).send('Passwords are not identical');
     }
 
-    [user, created] = await User.findOrCreate({
+    let [user, created] = await User.findOrCreate({
         where: {
             email
         },
@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
             password,
             username,
             address,
-            latlon
+            latlon,
+            salt: null
         }
     });
 

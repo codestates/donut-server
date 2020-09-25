@@ -2,8 +2,8 @@
 const {
   Model
 } = require('sequelize');
-const { user } = require('../controllers');
 const { setPassword } = require(__base + 'lib/auth');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -44,14 +44,20 @@ module.exports = (sequelize, DataTypes) => {
     latlon: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    salt: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     sequelize,
     modelName: 'User',
     hooks: {
-      beforeCreate: (user) => {
-        const newPassword = setPassword(user);
-        user.password = newPassword;
+      beforeValidate: (user) => {
+        const [hashedPassword, salt] = setPassword(user.password);
+
+        user.password = hashedPassword;
+        user.salt = salt;
       }
     }
   });
