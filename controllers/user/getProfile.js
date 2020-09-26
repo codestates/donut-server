@@ -1,5 +1,3 @@
-const { generateAccessToken } = require("../../lib/auth");
-
 const { User } = require(__base + 'models');
 const { getNeededUserInfo } = require(__base + 'lib/auth');
 

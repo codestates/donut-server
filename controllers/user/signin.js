@@ -14,16 +14,9 @@ module.exports = async (req, res) => {
         return res.status(404).send("Email does not exist");
     }
     
-    let hashedPassword;
-    try{
-        hashedPassword = checkPassword(user, password);
-    } catch(e){
-        console.error('Failed to hash password: ', e);
-    }
-
     if(!checkPassword(user, password)){
         return res.status(403).end('Password incorrect');
-    }
+    } 
 
     let token;
     try{
