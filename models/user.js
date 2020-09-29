@@ -2,8 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const { user } = require('../controllers');
-const { setPassword } = require(__base + 'lib/auth');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -44,16 +43,18 @@ module.exports = (sequelize, DataTypes) => {
     latlon: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    salt: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    refreshToken: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     sequelize,
-    modelName: 'User',
-    hooks: {
-      beforeCreate: (user) => {
-        const newPassword = setPassword(user);
-        user.password = newPassword;
-      }
-    }
+    modelName: 'User'
   });
   
   return User;

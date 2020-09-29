@@ -1,22 +1,27 @@
-const { User } = require('../../models');
+const { User } = require(__base + 'models');
+const { setPassword } = require(__base + '/lib/auth');
  
 module.exports = async (req, res) => {
 
-    const { email, password, passwordConform, username, address, latlon } = req.body;
-
-    if(password !== passwordConform){
+    const { email, password, passwordConfirm, username, address, latlon } = req.body;
+    console.log('body: ', req.body);
+    if(password !== passwordConfirm){
         return res.status(403).send('Passwords are not identical');
     }
+    
+    const [hashedPassword, salt] = setPassword(password);
+    console.log('hashed: ', salt);
 
-    [user, created] = await User.findOrCreate({
+    let [user, created] = await User.findOrCreate({
         where: {
             email
         },
         defaults: {
-            password,
+            password: hashedPassword,
             username,
             address,
-            latlon
+            latlon,
+            salt
         }
     });
 
