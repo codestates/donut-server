@@ -7,7 +7,9 @@ module.exports = async (req, res) => {
     const user = await User.findByPk(id);
 
     if(!user){
-        return res.status(404).send("Account does not Exist");
+        return res.status(404).json({
+            message: "Invalid account"
+        });
     }
 
     res.status(200).json(getNeededUserInfo(user.dataValues));

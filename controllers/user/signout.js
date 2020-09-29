@@ -1,18 +1,22 @@
 const { User } = require(__base + 'models');
 
 module.exports = async (req, res) => {
-    console.log('log out!!');
-   let user = await User.update({ refreshToken: null },{
+
+    let user = await User.update({ refreshToken: null },{
        where: {
             id: req.user.id,
        }
    });
-   console.log('user: ', user);
+
    if(!user){
-       return user.status(401).send('Invalid account');
+        return user.status(404).json({
+            message: 'Invalid account'
+        });
    }
 
    res.clearCookie('refreshToken');
-   res.status(204).send('logged out');
+   res.status(204).json({
+       message: 'Logged out successfully'
+    });
     
 };  

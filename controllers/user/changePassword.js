@@ -3,19 +3,25 @@ const { setPassword, checkPassword } = require(__base + 'lib/auth');
 
 module.exports = async (req, res) => {
     const { currentPassword, password, passwordConfirm } = req.body;
-    console.log('password: ', currentPassword, password, passwordConfirm);
+    //console.log('password: ', currentPassword, password, passwordConfirm);
     if(password !== passwordConfirm){
-        return res.status(400).send('New password is not identical');
+        return res.status(400).json({
+            message: 'New password is not identical'
+        });
     }
 
     let user = await User.findByPk(req.user.id);
 
     if(!user){
-        return res.status(404).send('Invalid Account');
+        return res.status(404).json({
+            message: 'Invalid Account'
+        });
     }
-    console.log('user: ', user.dataValues);
+
     if(!checkPassword(user.dataValues, currentPassword)){
-        return res.status(403).send('Incorrect password');
+        return res.status(400).json({
+            message: 'Incorrect password'
+        });
     }
 
     try{
@@ -27,9 +33,13 @@ module.exports = async (req, res) => {
         });
     } catch(e){
         console.error(e);
-        return res.status(500).send("Can not save new password");
+        return res.status(500).json({
+            message: "Can not save new password"
+        });
     }
 
-    res.status(204).send('Change password successfully');
+    res.status(204).json({
+        message: 'Password changed successfully'
+    });
 
 }

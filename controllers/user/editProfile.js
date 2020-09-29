@@ -1,24 +1,29 @@
 const { User } = require(__base + 'models');
 
 module.exports = async (req, res) => {
-  console.log('body: ', req.body);
-  const userData = {
+  
+    const userData = {
     ...req.body
   };
 
-  const email = userData.email;  
-  delete userData.email;
+  if(userData.email){
+      delete userData.email;
+  }
 
   let user = await User.update({ ...userData }, {
       where: {
         id: req.user.id,
-        email
       }
   });
 
   if(!user){
-      return res.status(400).send('invalid user data');
+      return res.status(404).json({
+        message:'Invalid account'
+    });
   }
 
-  res.status(200).send('edited successfully');
+  res.status(204).json({
+    message: 'Profile edited successfully'
+  });
+
 };
