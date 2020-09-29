@@ -4,8 +4,11 @@ const { generateToken, checkRefreshToken } = require(__base + 'lib/auth');
 module.exports = async (req, res) => {
 
     const { refreshToken } = req.cookies;
+
     if(!refreshToken){
-        return res.status(401).send('Refresh token does not exist');
+        return res.status(401).json({
+            message: 'Refresh token does not exist'
+        });
     }
 
     let user = await User.findOne({
@@ -16,7 +19,9 @@ module.exports = async (req, res) => {
     });
 
     if(!user){
-        return res.status(401).send('invalid refresh token');
+        return res.status(404).json({
+            message: 'Invalid account or Invalid refresh token'
+        });
     }
 
     //refresh token 검증(+유효 기간 검증)
@@ -24,6 +29,7 @@ module.exports = async (req, res) => {
         checkRefreshToken(refreshToken);
     } catch(e){
         console.error('failed to check refresh token', e);
+
         if(e.name && e.name === 'TokenExpiredError'){
             return res.status(403).json({
                 err: {
@@ -32,7 +38,9 @@ module.exports = async (req, res) => {
                 }
             })
         } else {
-            return res.status(401).send('invalid refresh token');
+            return res.status(400).json({
+                message: 'Incorrect refresh token'
+            });
         }
     }
 

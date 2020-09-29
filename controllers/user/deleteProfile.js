@@ -10,9 +10,13 @@ module.exports = async (req, res) => {
     });
 
     if(count === 0){
-        return res.status(400).send('Invalid account');
+        return res.status(404).json({
+            message: 'Invalid account'
+        });
     }
 
-    res.status(204).send('deleted accounts successfully');
+    res.status(204).json({
+        message: 'deleted accounts successfully'
+    });
 
 };
