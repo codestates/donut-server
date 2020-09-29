@@ -9,5 +9,6 @@ router.post('/refresh', checkAccessToken('refresh'), userControllers.refresh);
 router.get('/profile', checkAccessToken(), userControllers.getProfile);
 router.patch('/profile', checkAccessToken(), userControllers.editProfile);
 router.delete('/profile', checkAccessToken(), userControllers.deleteProfile);
+router.patch('/password', checkAccessToken(), userControllers.changePassword);
 
 module.exports = router;
