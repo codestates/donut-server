@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const { setPassword } = require(__base + 'lib/auth');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -48,18 +47,14 @@ module.exports = (sequelize, DataTypes) => {
     salt: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    refreshToken: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     sequelize,
-    modelName: 'User',
-    hooks: {
-      beforeValidate: (user) => {
-        const [hashedPassword, salt] = setPassword(user.password);
-
-        user.password = hashedPassword;
-        user.salt = salt;
-      }
-    }
+    modelName: 'User'
   });
   
   return User;

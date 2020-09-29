@@ -1,5 +1,5 @@
 const { User } = require(__base + 'models');
-const { generateAccessToken, checkPassword } = require(__base + 'lib/auth');
+const { generateToken, checkPassword, getNeededUserInfo } = require(__base + 'lib/auth');
 
 module.exports = async (req, res) => {
     const { email, password } = req.body;
@@ -15,16 +15,30 @@ module.exports = async (req, res) => {
     }
     
     if(!checkPassword(user, password)){
-        return res.status(403).end('Password incorrect');
+        return res.status(403).send('Password incorrect');
     } 
-
-    let token;
+    let accessToken;
+    let refreshToken;
     try{
-        token = generateAccessToken(user);
+        accessToken = generateToken('access_token', user.dataValues);
+        refreshToken = generateToken('refresh_token', user.dataValues);
+        console.log('refresh token:', refreshToken);
     } catch(e){
         console.error('Failed to generate token: ', e);
         return res.sendStatus(403);
-    } 
+    }
+    
+    user.refreshToken = refreshToken;
+    user.save({ fields: ['refreshToken']});
 
-    res.status(200).send(token);
+    const { username, latlon } = user.dataValues;
+
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly:true
+    });
+    res.status(200).json({
+        accessToken,
+        username,
+        latlon
+    });
 };

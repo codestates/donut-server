@@ -2,9 +2,9 @@ const { User } = require(__base + 'models');
 const { getNeededUserInfo } = require(__base + 'lib/auth');
 
 module.exports = async (req, res) => {
-    const { email } = req.user;
+    const { id } = req.user;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findByPk(id);
 
     if(!user){
         return res.status(404).send("Account does not Exist");

@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 
 const { userRouter } = require('./routes');
 
@@ -11,7 +12,11 @@ const app = express();
 const port = 4000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({
+    origin:true,
+    credentials:true
+}));
 app.use(morgan());
 
 app.use('/user', userRouter);
