@@ -1,9 +1,7 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-const { user } = require('../controllers');
-const { setPassword } = require(__base + 'lib/auth');
+"use strict";
+const { Model } = require("sequelize");
+const { user } = require("../controllers");
+const { setPassword } = require(__base + "lib/auth");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -14,47 +12,49 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Activity, {
-        foreignkey: 'ownerid'
+        foreignkey: "ownerid",
       });
 
-      User.belongsToMany(models.Skill, { through: 'UserSkills'});
-      User.belongsToMany(models.Activity, { through: 'ActivityParticipants' });
+      User.belongsToMany(models.Skill, { through: "UserSkills" });
+      User.belongsToMany(models.Activity, { through: "ActivityParticipants" });
+    }
+  }
 
+  User.init(
+    {
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      latlon: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: "User",
+      hooks: {
+        beforeCreate: (user) => {
+          const newPassword = setPassword(user);
+          user.password = newPassword;
+        },
+      },
     }
-  };
+  );
 
-  User.init({
-    email: {
-      type: DataTypes.STRING,
-      allowNull:false,
-      unique:true
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull:false
-    },
-    username: {
-      type:DataTypes.STRING,
-      allowNull: false
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    latlon: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
-  }, {
-    sequelize,
-    modelName: 'User',
-    hooks: {
-      beforeCreate: (user) => {
-        const newPassword = setPassword(user);
-        user.password = newPassword;
-      }
-    }
-  });
-  
   return User;
 };
