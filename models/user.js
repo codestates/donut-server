@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -13,49 +11,49 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Activity, {
-        foreignkey: 'ownerid'
+        foreignkey: "ownerid",
       });
 
-      User.belongsToMany(models.Skill, { through: 'UserSkills'});
-      User.belongsToMany(models.Activity, { through: 'ActivityParticipants' });
-
+      User.belongsToMany(models.Skill, { through: "UserSkills" });
+      User.belongsToMany(models.Activity, { through: "ActivityParticipants" });
     }
-  };
+  }
 
-  User.init({
-    email: {
-      type: DataTypes.STRING,
-      allowNull:false,
-      unique:true
+  User.init(
+    {
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      latlon: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull:false
-    },
-    username: {
-      type:DataTypes.STRING,
-      allowNull: false
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    latlon: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    salt: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    refreshToken: {
-      type: DataTypes.STRING,
-      allowNull: true
+    {
+      sequelize,
+      modelName: "User",
+      hooks: {
+        beforeCreate: (user) => {
+          const newPassword = setPassword(user);
+          user.password = newPassword;
+        },
+      },
     }
-  }, {
-    sequelize,
-    modelName: 'User'
-  });
-  
+  );
+
   return User;
 };
