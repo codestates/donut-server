@@ -1,7 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
-const { user } = require("../controllers");
-const { setPassword } = require(__base + "lib/auth");
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
