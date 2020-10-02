@@ -3,7 +3,6 @@ global.__base = __dirname + '/';
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 
 const { userRouter } = require('./routes');
