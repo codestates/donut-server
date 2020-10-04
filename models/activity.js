@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Activity extends Model {
     /**
@@ -11,35 +9,39 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Activity.belongsTo(models.User);
-      Activity.belongsToMany(models.Skill, { through: 'ActivitySkills'});
-      Activity.belongsToMany(models.User, { through: 'ActivityParticipants' });
+      Activity.belongsToMany(models.Skill, { through: "ActivitySkills" });
+      Activity.belongsToMany(models.User, { through: "ActivityParticipants" });
     }
     //User : Activity =  1 : N
     //Activity.userid = ...
-  };
-  Activity.init({
-    ownerId: {
-      type:DataTypes.INTEGER,
+  }
+  Activity.init(
+    {
+      ownerId: {
+        type: DataTypes.INTEGER,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      intro: DataTypes.STRING,
+      participationCriteria: DataTypes.STRING,
+      rule: DataTypes.STRING,
 
+      numberOfPeople: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull:false
-    },
-    intro: DataTypes.STRING,
-    participationCriteria: DataTypes.STRING,
-    rule: DataTypes.STRING,
-    numberOfPeople: {
-      type: DataTypes.INTEGER,
-      allowNull:false
-    },
-    location: {
-      type: DataTypes.STRING,
-      allowNull: false
+    {
+      sequelize,
+      modelName: "Activity",
     }
-  }, {
-    sequelize,
-    modelName: 'Activity',
-  });
+  );
   return Activity;
 };
