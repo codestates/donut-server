@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
     }
 
     res.status(204).json({
-        message: 'deleted accounts successfully'
+        message: 'Account was deleted successfully'
     });
 
 };
