@@ -14,6 +14,6 @@ module.exports = (req, res) => {
       res.status(201).json(result);
     })
     .catch((err) => {
-      res.status(404).send({ message: "invaild request!" }, err);
+      console.error(err);
     });
 };
