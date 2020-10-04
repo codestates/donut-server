@@ -2,8 +2,7 @@ const { User } = require(__base + 'models');
 const { generateToken, checkRefreshToken } = require(__base + 'lib/auth');
 
 module.exports = async (req, res) => {
-
-    
+    console.log('refresh: ', req.cookies);
     const { authType } = req.cookies;
 
     if(authType === 'jwt'){
@@ -15,7 +14,7 @@ module.exports = async (req, res) => {
                 message: 'Refresh token does not exist'
             });
         }
-    
+        console.log('refresh user: ', req.user);
         let user = await User.findOne({
             where: {
                 id: req.user.id,

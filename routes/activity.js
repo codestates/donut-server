@@ -6,12 +6,12 @@ router.get("/", activityController.getActivityList);
 
 router.post("/", activityController.createActivity);
 
-router.put("/", activityController.editActivity);
+router.put("/:id", activityController.editActivity);
 
-router.delete("/", activityController.deleteActivity);
+router.delete("/:id", activityController.deleteActivity);
 
 router.get("/:id", activityController.getActivity);
 
-router.post("/join", activityController.joinActivity);
+router.post("/join/:id", activityController.joinActivity);
 
 module.exports = router;

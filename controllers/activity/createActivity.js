@@ -1,4 +1,4 @@
-// const { Activity } = require("../../models");
+const { Activity } = require(__base + "models");
 
 module.exports = async (req, res) => {
   const { Activity } = require(__base + "models");
@@ -6,18 +6,24 @@ module.exports = async (req, res) => {
   let activity = await Activity.create({
     name: req.body.name,
     intro: req.body.intro,
+    ownerId: req.user.id,
     participationCriteria: req.body.participationCriteria,
     rule: req.body.rule,
-    skillSet: req.body.skillSet,
     numberOfPeople: req.body.numberOfPeople,
     location: req.body.location,
   });
+
+
   if (!activity) {
-    return res.status(403).send({ message: "It's fail to store" });
+    return res.status(403).json({ message: "It's fail to store" });
   } else {
     return res
       .status(201)
-      .send({ message: "It's completed to store Successfully" });
+      .json({ 
+        message: "It's completed to store Successfully",
+        username: req.user.username,
+        activityId: activity.id
+      });
   }
 };
 

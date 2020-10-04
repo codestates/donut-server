@@ -6,7 +6,8 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-const { userRouter } = require('./routes');
+const { userRouter, activityRouter } = require('./routes');
+const { authMiddleware } = require(__base + 'lib/auth');
 const passport = require(__base + 'lib/passport');
 
 const app = express();
@@ -35,6 +36,7 @@ app.use(passport.session());
 app.use(morgan());
 
 app.use('/user', userRouter);
+app.use('/activity', authMiddleware, activityRouter);
 
 app.listen(port, () => {
   console.log(`listening port ${port}`);
