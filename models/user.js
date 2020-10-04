@@ -25,28 +25,33 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     email: {
       type: DataTypes.STRING,
-      allowNull:false,
+      allowNull:true,
+      unique:true
+    },
+    githubId: {
+      type: DataTypes.INTEGER,
+      allowNull:true,
       unique:true
     },
     password: {
       type: DataTypes.STRING,
-      allowNull:false
+      allowNull:true
     },
     username: {
       type:DataTypes.STRING,
       allowNull: false
     },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     latlon: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     salt: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
+    },
+    accessToken: {
+      type: DataTypes.STRING,
+      allowNull: true
     },
     refreshToken: {
       type: DataTypes.STRING,
