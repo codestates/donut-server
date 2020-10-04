@@ -1,9 +1,5 @@
 const { activity } = require("../../controllers/activity");
 
-/* edit activities scenario
-  권한설정
-  // 생성한 유저에게만 권한, 요청을 보낸 사람이 액티비티의 주인인지 확인하는 것
-*/
 module.exports = (req, res) => {
   activity
     .update({

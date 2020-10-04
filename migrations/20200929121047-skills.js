@@ -7,7 +7,6 @@ module.exports = {
     return await queryInterface.bulkInsert("Skills", [
       {
         name: "C/C++",
-
         createdAt: new Date(),
         updatedAt: new Date(),
       },
