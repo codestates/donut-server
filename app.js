@@ -1,5 +1,4 @@
-global.__base = __dirname + "/";
-
+global.__base = __dirname + '/';
 
 const express = require('express');
 const cors = require('cors');
@@ -18,22 +17,24 @@ require('dotenv').config();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors({
-    origin:true,
-    credentials:true
-}));
-app.use(session({ 
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+app.use(
+  session({
     secret: process.env.SESSION_SECRET,
-    resave:false, 
-    saveUninitialize: false 
-}));
+    resave: false,
+    saveUninitialize: false,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(morgan());
 
 app.use('/user', userRouter);
-
-
 
 app.listen(port, () => {
   console.log(`listening port ${port}`);

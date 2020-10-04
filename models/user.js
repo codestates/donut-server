@@ -1,15 +1,15 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.hasMany(models.Activity, {
-        foreignkey: "ownerid",
+        foreignkey: 'ownerid',
       });
 
-      User.belongsToMany(models.Skill, { through: "UserSkills" });
-      User.belongsToMany(models.Activity, { through: "ActivityParticipants" });
+      User.belongsToMany(models.Skill, { through: 'UserSkills' });
+      User.belongsToMany(models.Activity, { through: 'ActivityParticipants' });
     }
   }
 
@@ -52,7 +52,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "User",
+     
+      modelName: 'User',
+
     }
   );
   return User;

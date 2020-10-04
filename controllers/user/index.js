@@ -1,6 +1,7 @@
 exports.signup = require('./signup');
 exports.signin = require('./signin');
 exports.signout = require('./signout');
+exports.check = require('./check');
 exports.refresh = require('./refresh');
 exports.deleteProfile = require('./deleteProfile');
 exports.editProfile = require('./editProfile');
